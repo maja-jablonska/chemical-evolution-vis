@@ -1,0 +1,126 @@
+// Archetype stars — representative [Fe/H] and [X/Fe] values compiled from published
+// abundance studies (Asplund+ 2009 solar; Sneden+ 2008 CS 22892-052; Honda+ 2006 HD 122563;
+// Hill+ 2002 CS 31082-001; Ramirez & Allende Prieto 2011 Arcturus; Bensby+ 2014 disk sample).
+// Rounded, schematic — meant for building intuition.
+
+// For each archetype: feh, population tag, [X/Fe] in dex for a handful of tracers.
+// Missing entries will be interpolated or inferred from process mix at that [Fe/H].
+
+window.ARCHETYPES = [
+  {
+    id: 'sun',
+    name: 'Sun',
+    subtitle: 'G2V, t ≈ 4.6 Gyr',
+    pop: 'thin-disk',
+    feh: 0.0,
+    alphafe: 0.0,
+    eufe: 0.0,
+    bafe: 0.0,
+    blurb: 'Reference star. By definition [X/Fe] = 0 for all X. Chemically "normal" thin-disk.',
+    xfe: {}, // all zero by construction
+  },
+  {
+    id: 'arcturus',
+    name: 'Arcturus (α Boo)',
+    subtitle: 'K1.5III, thick disk',
+    pop: 'thick-disk',
+    feh: -0.52,
+    alphafe: 0.30,
+    eufe: 0.35,
+    bafe: -0.10,
+    blurb: 'Old thick-disk giant — α-enhanced (CCSN-dominated chemistry, SN Ia had little time to contribute).',
+    xfe: { O: 0.4, Mg: 0.35, Si: 0.3, Ca: 0.25, Ti: 0.3, Mn: -0.3, Na: 0.1, Al: 0.25, Eu: 0.35, Ba: -0.1, Y: -0.05 },
+  },
+  {
+    id: 'bulge_giant',
+    name: 'Metal-rich bulge giant',
+    subtitle: 'old & α-rich',
+    pop: 'bulge',
+    feh: 0.25,
+    alphafe: 0.18,
+    eufe: 0.15,
+    bafe: -0.05,
+    blurb: 'Bulge stars formed fast: metal-rich yet still α-enhanced. Short formation timescale → CCSN chemistry locked in at high [Fe/H].',
+    xfe: { O: 0.25, Mg: 0.22, Si: 0.18, Ca: 0.15, Ti: 0.18, Mn: -0.05, Na: 0.1, Al: 0.2, Eu: 0.15, Ba: -0.05 },
+  },
+  {
+    id: 'hd122563',
+    name: 'HD 122563',
+    subtitle: 'metal-poor halo giant',
+    pop: 'halo',
+    feh: -2.7,
+    alphafe: 0.35,
+    eufe: -0.5,
+    bafe: -1.3,
+    blurb: 'Classic r-poor, α-rich halo star. Enriched by a handful of CCSN; the r-process hadn\'t reached it yet.',
+    xfe: { O: 0.6, Mg: 0.45, Si: 0.35, Ca: 0.3, Ti: 0.35, Mn: -0.45, Na: -0.1, Al: -0.5, Eu: -0.5, Ba: -1.3, Sr: -0.8, Y: -0.9, La: -1.0 },
+  },
+  {
+    id: 'cs22892',
+    name: 'CS 22892-052',
+    subtitle: 'r-II halo star',
+    pop: 'halo',
+    feh: -3.1,
+    alphafe: 0.35,
+    eufe: 1.6,
+    bafe: 1.0,
+    blurb: 'An r-II star: hugely r-process-enhanced. Likely enriched by a single rare event (neutron-star merger or MHD-jet CCSN) before much else mixed in.',
+    xfe: { O: 0.6, Mg: 0.4, Si: 0.35, Ca: 0.3, Ti: 0.35, Mn: -0.4, Na: 0.0, Al: -0.5, Eu: 1.6, Ba: 1.0, La: 1.05, Nd: 1.1, Dy: 1.5, Os: 1.4, Pt: 1.4, Th: 1.2, U: 1.0, Sr: 0.2, Y: 0.1, Zr: 0.3 },
+  },
+  {
+    id: 'cs31082',
+    name: 'CS 31082-001',
+    subtitle: 'r-II, U-detected',
+    pop: 'halo',
+    feh: -2.9,
+    alphafe: 0.3,
+    eufe: 1.7,
+    bafe: 1.2,
+    blurb: 'First star with measured uranium — a direct cosmochronometer. r-process pattern matches the scaled solar r-residual from Sr upward.',
+    xfe: { O: 0.55, Mg: 0.4, Si: 0.3, Ca: 0.25, Ti: 0.3, Mn: -0.4, Al: -0.45, Eu: 1.7, Ba: 1.2, La: 1.2, Nd: 1.25, Dy: 1.6, Os: 1.5, Pt: 1.5, Au: 1.5, Th: 1.3, U: 1.1, Sr: 0.3, Y: 0.2, Zr: 0.4 },
+  },
+  {
+    id: 'ba_star',
+    name: 'AGB / Ba-star',
+    subtitle: 's-process enhanced',
+    pop: 'thin-disk',
+    feh: -0.3,
+    alphafe: 0.05,
+    eufe: 0.1,
+    bafe: 1.1,
+    blurb: 'Barium star: mass-transferred s-process material from an AGB companion. Huge [Ba/Fe], [La/Fe], [Pb/Fe]; Eu almost unchanged.',
+    xfe: { C: 0.5, N: 0.3, Mg: 0.05, Si: 0.05, Ca: 0.05, Ti: 0.05, Sr: 0.9, Y: 1.0, Zr: 1.1, Ba: 1.1, La: 1.2, Ce: 1.2, Nd: 1.0, Pb: 1.8, Eu: 0.1 },
+  },
+  {
+    id: 'cemp_s',
+    name: 'CEMP-s star',
+    subtitle: 'C-rich + s-process',
+    pop: 'halo',
+    feh: -2.5,
+    alphafe: 0.3,
+    eufe: 0.2,
+    bafe: 1.8,
+    blurb: 'Carbon-enhanced metal-poor star with s-process overabundance. Ancient binary polluted by a metal-poor AGB companion.',
+    xfe: { C: 2.0, N: 1.0, O: 0.6, Na: 0.4, Mg: 0.3, Al: -0.2, Si: 0.3, Ca: 0.25, Ti: 0.3, Mn: -0.4, Sr: 0.8, Y: 1.0, Zr: 1.2, Ba: 1.8, La: 1.9, Ce: 1.9, Nd: 1.6, Eu: 0.2, Pb: 2.5 },
+  },
+  {
+    id: 'thin_disk_solar',
+    name: 'Thin-disk dwarf',
+    subtitle: 'Sun-like, slightly metal-rich',
+    pop: 'thin-disk',
+    feh: 0.1,
+    alphafe: -0.02,
+    eufe: 0.0,
+    bafe: 0.05,
+    blurb: 'Younger thin-disk star: slightly metal-rich, α-normal, a touch s-enhanced (GCE has added AGB material).',
+    xfe: { O: -0.02, Mg: -0.02, Si: 0.0, Ca: 0.0, Ti: 0.0, Mn: 0.05, Na: 0.05, Ba: 0.05, Eu: 0.0, Y: 0.05 },
+  },
+];
+
+// Stellar populations — used for the [α/Fe] vs [Fe/H] plane.
+window.POPULATIONS = {
+  'halo':       { color: '#9ab5ff', label: 'Halo',        fehRange: [-4.5, -1.0], alphaMean: 0.35 },
+  'thick-disk': { color: '#e8c46a', label: 'Thick disk',  fehRange: [-1.2, -0.2], alphaMean: 0.28 },
+  'thin-disk':  { color: '#6ad0c2', label: 'Thin disk',   fehRange: [-0.6,  0.4], alphaMean: 0.02 },
+  'bulge':      { color: '#e87a7a', label: 'Bulge',       fehRange: [-1.2,  0.5], alphaMean: 0.22 },
+};
